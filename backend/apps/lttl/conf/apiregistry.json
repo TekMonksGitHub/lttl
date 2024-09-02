@@ -1,0 +1,4 @@
+{
+    "/apps/{{app}}/shorten" : "/apis/shorten.js",
+    "/apps/{{app}}/geturl" : "/apis/geturl.js?get=true"
+}

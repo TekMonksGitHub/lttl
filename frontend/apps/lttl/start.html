@@ -1,0 +1,96 @@
+<!-- 
+(C) 2015 TekMonks. All rights reserved.
+License: See enclosed LICENSE file.
+-->
+
+<style>
+	body {
+		background-color: #FDBE08;
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+		width: 100%;
+		margin: 0;
+		font-family: arial;
+	}
+
+	div#header {
+		height: 25vh; 
+		width: 100vw;
+		display: flex;
+		flex-direction: column;
+		overflow: hidden;
+		padding-top: 3em;
+		padding-left: 3em;
+		box-sizing: border-box;
+	}
+	img#logo {
+		width: 10em;
+    	margin-bottom: 0.5em;
+	}
+	span#tagline {color: #4c4c4f;}
+
+	div#main {
+		height: 50vh; 
+		width: 100vw;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+	}
+	div.inputandbutton {
+		display: flex;
+		flex-direction: row;
+		height: 3em;
+		margin-bottom: 2em;
+		justify-content: center;
+	}
+	input {
+		margin-right: 2em;
+		outline: none;
+		border: none;
+		font-size: 1em;
+		padding: 1em;
+		height: 100%;
+		border-radius: 0.8em;
+		width: 60vw;
+		max-width: 40em;
+	}
+	input.disabled {background-color: #ebebeb;}
+	span.button {
+		min-width: 8em;
+		max-width: 8em;
+		background-color: #358AA4;
+		color: white;
+		display: inline-block;
+		padding: 1em;
+		font-size: 1em;
+		border-radius: 0.5em;
+		text-align: center;
+	}
+
+	div#footer {height: 25vh; width: 100vw;}
+</style>
+
+<!doctype html>
+<html>
+<head><title>{{i18n.Title}}</title></head>
+
+<body>
+	<div id="header">
+		<img id="logo" src="img/logo.svg">
+		<span id="tagline">World’s easiest URL shortner</span>
+	</div>
+	<div id="main">
+		<div id="urldiv" class="inputandbutton">
+			<input type="url" placeholder="Type or paste the URL here">
+			<span class="button">Shorten</span>
+		</div>
+		<div id="shorteneddiv" class="inputandbutton">
+			<input type="url" readonly class="disabled">
+			<span class="button">Copy</span>
+		</div>
+	</div>
+	<div id="footer">&nbsp;</div>
+</body>
+
+</html>

@@ -1,0 +1,3 @@
+[
+"CREATE TABLE IF NOT EXISTS urls (id VARCHAR not null, url VARCHAR not null)"
+]
