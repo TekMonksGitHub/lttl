@@ -4,7 +4,8 @@
  * (C) 2024 TekMonks. All rights reserved.
  * License: See enclosed LICENSE file.
  */
- 
+
+import {redirect} from "./redirect.mjs";
 import {router} from "/framework/js/router.mjs";
 import {session} from "/framework/js/session.mjs";
 import {securityguard} from "/framework/js/securityguard.mjs";
@@ -25,6 +26,8 @@ const init = async hostname => {
 
 const main = async _ => {
 	let location = window.location.href;
+	const id = new URL(location).searchParams.get("id");
+	if (id && redirect.redirectToID(id)) return;
 	if (!router.isInHistory(location) || !session.get(APP_CONSTANTS.USERID))
 		router.loadPage(APP_CONSTANTS.START_HTML);
 	else if (router.decodeURL(location) == session.get($$.MONKSHU_CONSTANTS.PAGE_URL)) router.reload();
