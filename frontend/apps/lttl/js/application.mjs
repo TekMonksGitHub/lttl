@@ -1,11 +1,14 @@
-/* 
- * (C) 2015 TekMonks. All rights reserved.
+/**
+ * The main entry point.
+ *  
+ * (C) 2024 TekMonks. All rights reserved.
  * License: See enclosed LICENSE file.
  */
  
 import {router} from "/framework/js/router.mjs";
 import {session} from "/framework/js/session.mjs";
 import {securityguard} from "/framework/js/securityguard.mjs";
+import {apimanager as apiman} from "/framework/js/apimanager.mjs";
 import {APP_CONSTANTS as AUTO_APP_CONSTANTS} from "./constants.mjs";
 
 const init = async hostname => {
@@ -17,6 +20,7 @@ const init = async hostname => {
 	if (!session.get($$.MONKSHU_CONSTANTS.LANG_ID.LANG_ID)) session.set($$.MONKSHU_CONSTANTS.LANG_ID.LANG_ID, "en");
 	securityguard.setPermissionsMap(APP_CONSTANTS.PERMISSIONS_MAP);
 	securityguard.setCurrentRole(securityguard.getCurrentRole() || APP_CONSTANTS.GUEST_ROLE);
+	apiman.registerAPIKeys(APP_CONSTANTS.API_KEYS, APP_CONSTANTS.KEY_HEADER); 
 }
 
 const main = async _ => {

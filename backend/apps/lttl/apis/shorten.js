@@ -9,6 +9,10 @@ const dblayer = require(`${LTTL_CONSTANTS.LIBDIR}/dblayer.js`);
 
 exports.doService = async jsonReq => {
 	if (!validateRequest(jsonReq)) {LOG.error("Validation failure."); return CONSTANTS.FALSE_RESULT;}
+	try {jsonReq.url = new URL(jsonReq.url).href} catch (err) {
+		LOG.error(`Adding ${jsonReq.url} failed due to bad URL, parsing error ${err}.`);
+		return CONSTANTS.FALSE_RESULT;
+	}
 	
 	LOG.debug("Got shorten request for URL: " + jsonReq.url);
 

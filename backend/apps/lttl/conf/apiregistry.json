@@ -1,4 +1,4 @@
 {
-    "/apps/{{app}}/shorten" : "/apis/shorten.js",
-    "/apps/{{app}}/geturl" : "/apis/geturl.js?get=true"
+    "/apps/{{app}}/shorten" : "/apis/shorten.js?keys=UFEY4GpNDgn6aPLYDXjVRrLzpt8H7Fq60wHK1hJ6DudcYXyj",
+    "/apps/{{app}}/geturl" : "/apis/geturl.js?get=true&keys=UFEY4GpNDgn6aPLYDXjVRrLzpt8H7Fq60wHK1hJ6DudcYXyj"
 }

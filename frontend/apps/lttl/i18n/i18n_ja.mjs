@@ -3,5 +3,6 @@ export const i18n = {
     "Tag": "World's easiest URL shortner",
     "TypeOrPasteURL" : "Type or paste the URL here",
     "Shorten" : "Shorten",
-    "Copy" : "Copy"
+    "Copy" : "Copy",
+    "BadURLOrError": "Bad URL or error"
 }
