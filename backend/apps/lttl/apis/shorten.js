@@ -5,13 +5,29 @@
  * License: See enclosed LICENSE file.
  */
 
+
 const dblayer = require(`${LTTL_CONSTANTS.LIBDIR}/dblayer.js`);
+const httpClient = require(`${CONSTANTS.LIBDIR}/httpClient.js`);
+const recaptchaconf = require(`${LTTL_CONSTANTS.CONFDIR}/recaptcha.json`);
 
 exports.doService = async jsonReq => {
 	if (!validateRequest(jsonReq)) {LOG.error("Validation failure."); return CONSTANTS.FALSE_RESULT;}
+
 	try {jsonReq.url = new URL(jsonReq.url).href} catch (err) {
 		LOG.error(`Adding ${jsonReq.url} failed due to bad URL, parsing error ${err}.`);
 		return CONSTANTS.FALSE_RESULT;
+	}
+
+	const recaptchaResponse = await httpClient.fetch(recaptchaconf.url, {
+		method: recaptchaconf.method, 
+		headers: { "Content-Type": "application/x-www-form-urlencoded" },
+		body: `secret=${recaptchaconf.secret}&response=${jsonReq.recaptchaToken}`});
+	let recaptchaResponseObject = {success: false}; try {
+		if (recaptchaResponse.ok) recaptchaResponseObject = recaptchaResponse.json();
+	} catch (err) {};
+	if (!recaptchaResponseObject.success) {
+		LOG.error(`Adding ${jsonReq.url} failed due to recaptcha challenge failure.`);
+		return {...CONSTANTS.FALSE_RESULT, reason: "recaptcha"};
 	}
 	
 	LOG.debug("Got shorten request for URL: " + jsonReq.url);
@@ -27,4 +43,4 @@ exports.doService = async jsonReq => {
 	return {result, id};
 }
 
-const validateRequest = jsonReq => (jsonReq && jsonReq.url);
+const validateRequest = jsonReq => (jsonReq && jsonReq.url && jsonReq.recaptchaToken);

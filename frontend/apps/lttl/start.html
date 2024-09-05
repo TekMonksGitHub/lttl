@@ -114,6 +114,7 @@ License: See enclosed LICENSE file.
 <html>
 <head>
 	<title>{{i18n.Title}}</title>
+	<script src="https://www.google.com/recaptcha/api.js?render={{{APP_CONSTANTS.GRECAPTCHA_KEY}}}"></script>	<!-- Recaptcha -->
 	<script type="module">
 		import {start} from "./js/start.mjs"; monkshu_env.apps[APP_CONSTANTS.APP_NAME].start = start; 
 	</script>

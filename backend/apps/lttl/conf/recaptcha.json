@@ -1,0 +1,5 @@
+{
+    "url": "https://www.google.com/recaptcha/api/siteverify",
+    "method": "post",
+    "secret": "6LeTLzcqAAAAAPZGEbEiTZottlMUO_e6Q5nIznl3"
+}

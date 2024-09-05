@@ -22,6 +22,8 @@ export const APP_CONSTANTS = {
     MOBILE_MEDIA_QUERY_PORTRAIT_START: "<style>@media only screen and (max-width: 959px) and (orientation: portrait) {",
     MOBILE_MEDIA_QUERY_PORTRAIT_END: "}</style>",
 
+    GRECAPTCHA_KEY: "6LeTLzcqAAAAAE6cyDUzY_HZVeS0GTTK-MV7TDkT",
+
     USERID: "id",
     USER_ROLE: "user",
     GUEST_ROLE: "guest",

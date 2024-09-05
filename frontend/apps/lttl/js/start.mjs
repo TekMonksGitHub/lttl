@@ -21,15 +21,32 @@ async function shorten(urlInput, shortenedurlInput) {
 		urlInput.value = url;
 	}
 
-	const req = {url}, result = await apiman.rest(API_SHORTEN, "POST", req);
+	const recaptchaToken = await _getRecaptchaToken();
+
+	const req = {url, recaptchaToken}, result = await apiman.rest(API_SHORTEN, "POST", req);
     if (!result?.result) {
-		LOG.error(`Shortening failed for ${url} due to internal error. False or null response.`);
-		shortenedurlInput.value = "Bad URL or error";
+		if (result?.reason == "recaptcha") {
+			LOG.error(`Shortening failed for ${url} due to recaptcha error. False or null response.`);
+			shortenedurlInput.value = "recaptcha error";
+		} else {
+			LOG.error(`Shortening failed for ${url} due to internal error. False or null response.`);
+			shortenedurlInput.value = "Bad URL or error";
+		}
+		
 		return;
 	}
 	
 	const redirectURL = `${APP_CONSTANTS.FRONTEND}/${result.id}`;
 	shortenedurlInput.value = redirectURL;
+}
+
+function _getRecaptchaToken() {
+	return new Promise(resolve => {
+		grecaptcha.ready(async _=>{
+			const token = await grecaptcha.execute(APP_CONSTANTS.GRECAPTCHA_KEY, {action: "submit"});
+			resolve(token);
+		});
+	});
 }
 
 export const start = {shorten};

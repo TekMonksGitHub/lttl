@@ -9,6 +9,7 @@ const path = require("path");
 
 const APPROOT = path.resolve(`${__dirname}/../`);
 const LIBDIR = path.resolve(`${APPROOT}/lib`);
+const CONFDIR = path.resolve(`${APPROOT}/conf`);
 const DBDIR = path.resolve(`${APPROOT}/db`);
 
-module.exports = {APPROOT, LIBDIR, DBDIR};
+module.exports = {APPROOT, LIBDIR, DBDIR, CONFDIR};
