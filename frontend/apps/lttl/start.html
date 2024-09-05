@@ -69,8 +69,46 @@ License: See enclosed LICENSE file.
 		cursor: default;
 	}
 
-	div#footer {height: 25vh; width: 100vw;}
+	div#footer {
+		height: 25vh;
+		width: 100vw;
+		display: flex;
+		flex-direction: column;
+		justify-content: end;
+		padding-bottom: 1em;
+		box-sizing: border-box;
+		align-items: center;
+		font-size: x-small;
+		color: #4c4c4c;
+	}
+	span#copyright {cursor: pointer;}
 </style>
+
+{{{APP_CONSTANTS.MOBILE_MEDIA_QUERY_LANDSCAPE_START}}}
+	div#header{height: 60vh;}
+{{{APP_CONSTANTS.MOBILE_MEDIA_QUERY_LANDSCAPE_END}}}
+
+{{{APP_CONSTANTS.MOBILE_MEDIA_QUERY_PORTRAIT_START}}}
+	div.inputandbutton {
+		flex-direction: column;
+		height: 10em;
+		justify-content: space-between;
+		padding: 1em;
+    	box-sizing: border-box;
+	}
+
+	input {
+		height: auto;
+		width: 100%;
+		max-width: unset;
+		margin-bottom: unset;
+	}
+
+	span.button {
+		min-width: unset;
+		max-width: unset;
+	}
+{{{APP_CONSTANTS.MOBILE_MEDIA_QUERY_PORTRAIT_END}}}
 
 <!doctype html>
 <html>
@@ -105,7 +143,7 @@ License: See enclosed LICENSE file.
 				onclick="$$.copyTextToClipboard(document.querySelector('input#shortenedurl').value)">Copy</span>
 		</div>
 	</div>
-	<div id="footer">&nbsp;</div>
+	<div id="footer"><span id="copyright" onclick="window.open('https://tekmonks.com')">© Tekmonks</span></div>
 </body>
 
 </html>

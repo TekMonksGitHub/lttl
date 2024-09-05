@@ -22,6 +22,7 @@ const init = async hostname => {
 	securityguard.setPermissionsMap(APP_CONSTANTS.PERMISSIONS_MAP);
 	securityguard.setCurrentRole(securityguard.getCurrentRole() || APP_CONSTANTS.GUEST_ROLE);
 	apiman.registerAPIKeys(APP_CONSTANTS.API_KEYS, APP_CONSTANTS.KEY_HEADER); 
+	router.addOnLoadPageData("*", async (data, _url) => data.APP_CONSTANTS = window.APP_CONSTANTS); 
 }
 
 const main = async _ => {

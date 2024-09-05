@@ -15,6 +15,13 @@ export const APP_CONSTANTS = {
     API_KEYS: {"*":"UFEY4GpNDgn6aPLYDXjVRrLzpt8H7Fq60wHK1hJ6DudcYXyj"},
     KEY_HEADER: "X-API-Key",
 
+    MOBILE_MEDIA_QUERY_START: "<style>@media only screen and (max-width: 959px) {",
+    MOBILE_MEDIA_QUERY_END: "}</style>",
+    MOBILE_MEDIA_QUERY_LANDSCAPE_START: "<style>@media only screen and (max-width: 959px) and (orientation: landscape) {",
+    MOBILE_MEDIA_QUERY_LANDSCAPE_END: "}</style>",
+    MOBILE_MEDIA_QUERY_PORTRAIT_START: "<style>@media only screen and (max-width: 959px) and (orientation: portrait) {",
+    MOBILE_MEDIA_QUERY_PORTRAIT_END: "}</style>",
+
     USERID: "id",
     USER_ROLE: "user",
     GUEST_ROLE: "guest",
