@@ -1,3 +1,4 @@
 [
-"CREATE TABLE IF NOT EXISTS urls (id VARCHAR not null, url VARCHAR not null)"
+"CREATE TABLE IF NOT EXISTS urls (id VARCHAR not null, url VARCHAR not null)",
+"CREATE TABLE IF NOT EXISTS access (timestamp INT not null, id VARCHAR not null, url VARCHAR not null, clientip VARCHAR not null, agentstr VARCHAR not null, FOREIGN KEY (id) REFERENCES urls(id))"
 ]

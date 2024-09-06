@@ -30,7 +30,7 @@ const main = async _ => {
 	const id = new URL(location).searchParams.get("id");
 	if (id && redirect.redirectToID(id)) return;
 	if (!router.isInHistory(location) || !session.get(APP_CONSTANTS.USERID))
-		router.loadPage(APP_CONSTANTS.START_HTML);
+		try {await router.loadPage(APP_CONSTANTS.START_HTML)} catch (err) {window.location="/framework/error.html";}
 	else if (router.decodeURL(location) == session.get($$.MONKSHU_CONSTANTS.PAGE_URL)) router.reload();
 	else router.loadPage(location);
 }

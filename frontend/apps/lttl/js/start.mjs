@@ -22,8 +22,8 @@ async function shorten(urlInput, shortenedurlInput) {
 	}
 
 	const recaptchaToken = await _getRecaptchaToken();
-
-	const req = {url, recaptchaToken}, result = await apiman.rest(API_SHORTEN, "POST", req);
+	const req = {url, recaptchaToken}, result = recaptchaToken? await apiman.rest(API_SHORTEN, "POST", req) :
+		{result: false, reason: "recaptcha"}
     if (!result?.result) {
 		if (result?.reason == "recaptcha") {
 			LOG.error(`Shortening failed for ${url} due to recaptcha error. False or null response.`);
@@ -41,6 +41,8 @@ async function shorten(urlInput, shortenedurlInput) {
 }
 
 function _getRecaptchaToken() {
+	if (!grecaptcha) return null;	// recaptcha not ready or something wrong
+
 	return new Promise(resolve => {
 		grecaptcha.ready(async _=>{
 			const token = await grecaptcha.execute(APP_CONSTANTS.GRECAPTCHA_KEY, {action: "submit"});

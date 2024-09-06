@@ -12,6 +12,7 @@ const db = require(`${CONSTANTS.LIBDIR}/db.js`).getDBDriver("sqlite", DB_PATH, D
 
 exports.initDBAsync = async _ => await db.init();
 
+/** @return URL for the given ID */
 exports.getURL = async id => {
 	const query = "SELECT url FROM urls WHERE id=?";
 	const url = await db.getQuery(query, [id]);
@@ -19,6 +20,7 @@ exports.getURL = async id => {
     return _flattenArray(url, "url")[0];
 }
 
+/** @return ID for the given URL if it exists, else null */
 exports.getIDForExistingURL = async url => {
 	const query = "SELECT id FROM urls WHERE url=? COLLATE NOCASE";
 	const id = await db.getQuery(query, [url]);
@@ -26,15 +28,24 @@ exports.getIDForExistingURL = async url => {
     return _flattenArray(id, "id")[0];
 }
 
+/** Add (id, url) to the DB */
 exports.addURL = async (id, url) => {
-    const query = "INSERT INTO urls (id, url) values (?,?)";
-	const result = await db.runCmd(query, [id, url]); 
+    const cmd = "INSERT INTO urls (id, url) values (?,?)";
+	const result = await db.runCmd(cmd, [id, url]); 
 	return result;
 }
 
+/** Remove URL from DB given an ID */
 exports.rmURL = async id => {
     const query = "DELETE FROM urls WHERE id=?";
 	const result = await db.runCmd(query, [id]); 
+	return result;
+}
+
+/** Add access to DB given its timestamp, id, url, clientip, agentstr */
+exports.addAccess  = async (timestamp, id, url, clientip, agentstr) => {
+	const cmd = "INSERT INTO access (timestamp, id, url, clientip, agentstr) values (?,?,?,?,?)";
+	const result = await db.runCmd(cmd, [timestamp, id, url, clientip, agentstr]); 
 	return result;
 }
 
