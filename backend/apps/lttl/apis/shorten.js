@@ -10,7 +10,9 @@ const dblayer = require(`${LTTL_CONSTANTS.LIBDIR}/dblayer.js`);
 const httpClient = require(`${CONSTANTS.LIBDIR}/httpClient.js`);
 const recaptchaconf = require(`${LTTL_CONSTANTS.CONFDIR}/recaptcha.json`);
 
-exports.doService = async jsonReq => {
+const SHORTEN_API = "shortenapi", SHORTEN_WEB = "shorten";
+
+exports.doService = async (jsonReq, _servObject, _headers, apiurl, _apiconf) => {
 	if (!validateRequest(jsonReq)) {LOG.error("Validation failure."); return CONSTANTS.FALSE_RESULT;}
 
 	try {jsonReq.url = new URL(jsonReq.url).href} catch (err) {
@@ -18,23 +20,27 @@ exports.doService = async jsonReq => {
 		return CONSTANTS.FALSE_RESULT;
 	}
 
-	const recaptchaResponse = await httpClient.fetch(recaptchaconf.url, {
-		method: recaptchaconf.method, 
-		headers: { "Content-Type": "application/x-www-form-urlencoded" },
-		body: `secret=${recaptchaconf.secret}&response=${jsonReq.recaptchaToken}`});
-	let recaptchaResponseObject = {success: false}; try {
-		if (recaptchaResponse.ok) recaptchaResponseObject = recaptchaResponse.json();
-	} catch (err) {};
-	if (!recaptchaResponseObject.success) {
-		LOG.error(`Adding ${jsonReq.url} failed due to recaptcha challenge failure.`);
-		return {...CONSTANTS.FALSE_RESULT, reason: "recaptcha"};
+	if (apiurl.endsWith(SHORTEN_WEB)) {	// direct api calls to ignore recaptcha, but validate for web UI
+		const recaptchaResponse = await httpClient.fetch(recaptchaconf.url, {
+			method: recaptchaconf.method, 
+			headers: { "Content-Type": "application/x-www-form-urlencoded" },
+			body: `secret=${recaptchaconf.secret}&response=${jsonReq.recaptchaToken||""}`});
+		let recaptchaResponseObject = {success: false}; try {
+			if (recaptchaResponse.ok) recaptchaResponseObject = recaptchaResponse.json();
+		} catch (err) {};
+		if (!recaptchaResponseObject.success) {
+			LOG.error(`Adding ${jsonReq.url} failed due to recaptcha challenge failure.`);
+			return {...CONSTANTS.FALSE_RESULT, reason: "recaptcha"};
+		}
 	}
 	
 	LOG.debug("Got shorten request for URL: " + jsonReq.url);
 
-	const existingID = await dblayer.getIDForExistingURL(jsonReq.url);
-	if (existingID) return {result: true, id: existingID};	// save DB space
-
+	if (apiurl.endsWith(SHORTEN_WEB) || (apiurl.endsWith(SHORTEN_API) && (!jsonReq.forcenew))) {	// api can force new IDs
+		const existingID = await dblayer.getIDForExistingURL(jsonReq.url);
+		if (existingID) return {result: true, id: existingID};	// save DB space
+	}
+	
 	const ts = Date.now() + Math.round(Math.random()*100000);
 	const bytes = new ArrayBuffer(4); new DataView(bytes).setUint32(0, ts);
 	const id = Buffer.from(bytes).toString("base64url");
@@ -43,4 +49,4 @@ exports.doService = async jsonReq => {
 	return {result, id};
 }
 
-const validateRequest = jsonReq => (jsonReq && jsonReq.url && jsonReq.recaptchaToken);
+const validateRequest = jsonReq => (jsonReq && jsonReq.url);

@@ -1,4 +1,6 @@
 {
     "/apps/{{app}}/shorten" : "/apis/shorten.js?keys=UFEY4GpNDgn6aPLYDXjVRrLzpt8H7Fq60wHK1hJ6DudcYXyj",
-    "/apps/{{app}}/geturl" : "/apis/geturl.js?get=true&keys=UFEY4GpNDgn6aPLYDXjVRrLzpt8H7Fq60wHK1hJ6DudcYXyj"
+    "/apps/{{app}}/shortenapi" : "/apis/shorten.js?keys=VG1NjEabf5WqijHLyS56aKqc6CaKAY5zrG5G8ZpFVAjNynpt",
+    "/apps/{{app}}/geturl" : "/apis/geturl.js?get=true&keys=UFEY4GpNDgn6aPLYDXjVRrLzpt8H7Fq60wHK1hJ6DudcYXyj",
+    "/apps/{{app}}/report" : "/apis/report.js?get=true&keys=VG1NjEabf5WqijHLyS56aKqc6CaKAY5zrG5G8ZpFVAjNynpt"
 }

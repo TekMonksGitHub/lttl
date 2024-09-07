@@ -49,6 +49,13 @@ exports.addAccess  = async (timestamp, id, url, clientip, agentstr) => {
 	return result;
 }
 
+/** Runs a select query on the given table with the given WHERE clause */
+exports.selectTableWhere = async (table, where) => {
+	const query = `SELECT * from ${table} WHERE ${where}`;
+	const result = await db.getQuery(query); 
+	return result;
+}
+
 function _flattenArray(results, columnName, functionToCall) { 
 	if (!results) return [];
 	const retArray = []; for (const result of results) retArray.push(
